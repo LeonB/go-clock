@@ -107,7 +107,7 @@ func (r *FolioIndexRequest) NewResponseBody() *FolioIndexResponseBody {
 type FolioIndexResponseBody []int
 
 func (r *FolioIndexRequest) URL() url.URL {
-	return r.client.GetEndpointURL("/base_api/{subscription_id}/{account_id}/folios.json", r.PathParams())
+	return r.client.GetEndpointURL("/base_api/{{.subscription_id}}/{{.account_id}}/folios.json", r.PathParams())
 }
 
 func (r *FolioIndexRequest) Do() (FolioIndexResponseBody, error) {
@@ -118,7 +118,7 @@ func (r *FolioIndexRequest) Do() (FolioIndexResponseBody, error) {
 	}
 
 	// Process query parameters
-	err = AddQueryParamsToRequest(r.QueryParams(), req, true)
+	err = AddQueryParamsToRequest(r.QueryParams(), req, false)
 	if err != nil {
 		return nil, err
 	}

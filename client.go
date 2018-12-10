@@ -13,7 +13,9 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"strings"
+	"time"
 
+	"github.com/alecthomas/template"
 	dac "github.com/xinsnake/go-http-digest-auth-client"
 )
 
@@ -39,7 +41,8 @@ func NewClient(httpClient *http.Client, userName string, APIKey string) *Client 
 	}
 
 	client := &Client{
-		http: httpClient,
+		http:              httpClient,
+		requestTimestamps: []time.Time{},
 	}
 
 	client.SetUserName(userName)
@@ -70,11 +73,14 @@ type Client struct {
 	// User agent for client
 	userAgent string
 
-	mediaType string
-	charset   string
+	mediaType             string
+	charset               string
+	disallowUnknownFields bool
 
 	// Optional function called after every successful request made to the DO Clients
 	onRequestCompleted RequestCompletionCallback
+
+	requestTimestamps []time.Time
 }
 
 // RequestCompletionCallback defines the type of the request callback function
@@ -156,13 +162,27 @@ func (c *Client) UserAgent() string {
 	return userAgent
 }
 
+func (c *Client) SetDisallowUnknownFields(disallowUnknownFields bool) {
+	c.disallowUnknownFields = disallowUnknownFields
+}
+
 func (c *Client) GetEndpointURL(path string, pathParams PathParams) url.URL {
 	clientURL := c.BaseURL()
 	clientURL.Path = clientURL.Path + path
 
+	tmpl, err := template.New("endpoint_url").Parse(clientURL.Path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	buf := new(bytes.Buffer)
 	params := pathParams.Params()
-	clientURL.Path = strings.Replace(clientURL.Path, "{subscription_id}", params["subscription_id"], 1)
-	clientURL.Path = strings.Replace(clientURL.Path, "{account_id}", params["account_id"], 1)
+	err = tmpl.Execute(buf, params)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	clientURL.Path = buf.String()
 	return clientURL
 }
 
@@ -204,6 +224,9 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 		log.Println(string(dump))
 	}
 
+	c.SleepUntilRequestRate()
+	c.RegisterRequestTimestamp(time.Now())
+
 	httpResp, err := c.http.Do(req)
 	if err != nil {
 		return nil, err
@@ -244,7 +267,11 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 
 	// try to decode body into interface parameter
 	if responseBody != nil {
-		err = json.NewDecoder(httpResp.Body).Decode(responseBody)
+		dec := json.NewDecoder(httpResp.Body)
+		if c.disallowUnknownFields {
+			dec.DisallowUnknownFields()
+		}
+		err = dec.Decode(responseBody)
 		if err != nil && err != io.EOF {
 			// create a simple error response
 			errorResponse := &ErrorResponse{Response: httpResp}
@@ -254,6 +281,33 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 	}
 
 	return httpResp, nil
+}
+
+func (c *Client) RegisterRequestTimestamp(t time.Time) {
+	if len(c.requestTimestamps) >= 5 {
+		c.requestTimestamps = c.requestTimestamps[1:5]
+	}
+	c.requestTimestamps = append(c.requestTimestamps, t)
+}
+
+func (c *Client) SleepUntilRequestRate() {
+	// Requestrate is 5r/1s
+
+	// if there are less then 5 registered requests: execute the request
+	// immediately
+	if len(c.requestTimestamps) < 5 {
+		return
+	}
+
+	// is the first item within 1 second? If it's > 1 second the request can be
+	// executed imediately
+	diff := time.Now().Sub(c.requestTimestamps[0])
+	if diff >= time.Second {
+		return
+	}
+
+	// Sleep for the time it takes for the first item to be > 1 second old
+	time.Sleep(time.Second - diff)
 }
 
 // CheckResponse checks the Client response for errors, and returns them if
