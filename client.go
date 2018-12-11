@@ -15,8 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/alecthomas/template"
-	dac "github.com/xinsnake/go-http-digest-auth-client"
+	digest "github.com/omniboost/go-clock/digest"
 )
 
 const (
@@ -100,7 +99,7 @@ func (c *Client) UserName() string {
 
 func (c *Client) SetUserName(userName string) {
 	c.userName = userName
-	t := dac.NewTransport(c.UserName(), c.APIKey())
+	t := digest.NewTransport(c.UserName(), c.APIKey())
 	c.http.Transport = &t
 }
 
@@ -110,7 +109,7 @@ func (c *Client) APIKey() string {
 
 func (c *Client) SetAPIKey(apiKey string) {
 	c.apiKey = apiKey
-	t := dac.NewTransport(c.UserName(), c.APIKey())
+	t := digest.NewTransport(c.UserName(), c.APIKey())
 	c.http.Transport = &t
 }
 
