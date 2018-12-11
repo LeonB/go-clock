@@ -13,6 +13,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"strings"
+	"text/template"
 	"time"
 
 	digest "github.com/omniboost/go-clock/digest"
