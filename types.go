@@ -21,7 +21,7 @@ type Folio struct {
 
 	// DateTime of the folio closure. Use 'close_date' for finansial purposes
 	// instead this field.
-	CloseAt Time `json:"close_at"`
+	CloseAt *Time `json:"close_at"`
 
 	// ID of the 'Company' issued to
 	InvoiceToCompanyID int `json:"invoice_to_company_id"`
@@ -40,7 +40,7 @@ type Folio struct {
 
 	// Normal (Client) folios/invoices are 'true'. Deposit folios/invoices are
 	// 'false'
-	Deposit bool `json:"payed"`
+	Deposit bool `json:"deposit"`
 
 	// ID of the Document Type. Document Types are defined by clients for
 	// customization puproses.
@@ -62,10 +62,10 @@ type Folio struct {
 	Balance CurrencyValue `json:"balance"`
 
 	// Issuer of a folio/invoice
-	IssuesBillingInfo *BillingInfo `json:"issuer_billing_info"`
+	IssuerBillingInfo *BillingInfo `json:"issuer_billing_info"`
 
 	// Receiver of a folio/invoice (Client)
-	Contragent *BillingInfo `json:"contragent_billing_info:"`
+	ContragentBillingInfo *BillingInfo `json:"contragent_billing_info"`
 
 	// PMS: Optional name of a folio; POS: Table of a bill
 	Name string `json:"name"`
@@ -103,16 +103,17 @@ type Folio struct {
 }
 
 type BillingInfo struct {
-	ID                    int    `json:"id"`
-	Name                  string `json:"name"`
-	VAT                   string `json:"vat"`
-	SecondIdentification  string `json:"second_identification"`
-	Country               string `json:"country"`
-	Address               string `json"address`
-	PersonName            string `json:"person_name"`
-	AdditionalBillingInfo string `json:"additional_billing_info"`
-	CreatedAt             Time   `json:"created_at"`
-	UpdatedAt             Time   `json:"updated_at"`
+	ID                    int          `json:"id"`
+	Name                  string       `json:"name"`
+	VAT                   string       `json:"vat"`
+	SecondIdentification  string       `json:"second_identification"`
+	Country               string       `json:"country"`
+	Address               string       `json"address`
+	PersonName            string       `json:"person_name"`
+	AdditionalBillingInfo string       `json:"additional_billing_info"`
+	CreatedAt             Time         `json:"created_at"`
+	UpdatedAt             Time         `json:"updated_at"`
+	CustomFields          CustomFields `json:"custom_fields"`
 }
 
 type FolioCharges []FolioCharge
@@ -210,8 +211,7 @@ type FolioCharge struct {
 	} `json:"modifiers"`
 }
 
-type CustomFields struct {
-}
+type CustomFields map[string]interface{}
 
 type FolioCredits []FolioCredit
 
