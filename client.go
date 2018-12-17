@@ -301,7 +301,7 @@ func (c *Client) SleepUntilRequestRate() {
 
 	// is the first item within 1 second? If it's > 1 second the request can be
 	// executed imediately
-	diff := time.Now().Sub(c.requestTimestamps[0])
+	diff := time.Now().Sub(c.requestTimestamps[1])
 	if diff >= time.Second {
 		return
 	}
