@@ -295,13 +295,13 @@ func (c *Client) SleepUntilRequestRate() {
 
 	// if there are less then 5 registered requests: execute the request
 	// immediately
-	if len(c.requestTimestamps) < 5 {
+	if len(c.requestTimestamps) < 4 {
 		return
 	}
 
 	// is the first item within 1 second? If it's > 1 second the request can be
 	// executed imediately
-	diff := time.Now().Sub(c.requestTimestamps[1])
+	diff := time.Now().Sub(c.requestTimestamps[0])
 	if diff >= time.Second {
 		return
 	}
