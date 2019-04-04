@@ -307,7 +307,7 @@ func (c *Client) SleepUntilRequestRate() {
 	}
 
 	// Sleep for the time it takes for the first item to be > 1 second old
-	time.Sleep(time.Second - diff)
+	time.Sleep((time.Second*2) - diff)
 }
 
 // CheckResponse checks the Client response for errors, and returns them if
