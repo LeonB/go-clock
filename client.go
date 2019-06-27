@@ -32,6 +32,7 @@ var (
 		Host:   "sky-eu1.clock-software.com",
 		Path:   "",
 	}
+	requestTimestamps = make(map[int]*timestamps)
 )
 
 // NewClient returns a new InvoiceXpress Client client
@@ -42,7 +43,7 @@ func NewClient(httpClient *http.Client, userName string, APIKey string) *Client 
 
 	client := &Client{
 		http:              httpClient,
-		requestTimestamps: []time.Time{},
+		requestTimestamps: &timestamps{},
 	}
 
 	client.SetUserName(userName)
@@ -80,7 +81,7 @@ type Client struct {
 	// Optional function called after every successful request made to the DO Clients
 	onRequestCompleted RequestCompletionCallback
 
-	requestTimestamps []time.Time
+	requestTimestamps *timestamps
 }
 
 // RequestCompletionCallback defines the type of the request callback function
@@ -128,6 +129,11 @@ func (c *Client) AccountID() int {
 
 func (c *Client) SetAccountID(accountID int) {
 	c.accountID = accountID
+
+	if requestTimestamps[accountID] == nil {
+		requestTimestamps[accountID] = &timestamps{}
+	}
+	c.requestTimestamps = requestTimestamps[accountID]
 }
 
 func (c *Client) BaseURL() url.URL {
@@ -225,12 +231,14 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 	}
 
 	c.SleepUntilRequestRate()
-	c.RegisterRequestTimestamp(time.Now())
 
 	httpResp, err := c.http.Do(req)
 	if err != nil {
 		return nil, err
 	}
+
+	// register timestamp after request has a response
+	c.RegisterRequestTimestamp(time.Now())
 
 	if c.onRequestCompleted != nil {
 		c.onRequestCompleted(req, httpResp)
@@ -284,10 +292,12 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 }
 
 func (c *Client) RegisterRequestTimestamp(t time.Time) {
-	if len(c.requestTimestamps) >= 5 {
-		c.requestTimestamps = c.requestTimestamps[1:5]
+	if len(*c.requestTimestamps) >= 5 {
+		ts := (*c.requestTimestamps)[1:5]
+		c.requestTimestamps = &ts
 	}
-	c.requestTimestamps = append(c.requestTimestamps, t)
+	ts := append(*c.requestTimestamps, t)
+	c.requestTimestamps = &ts
 }
 
 func (c *Client) SleepUntilRequestRate() {
@@ -295,19 +305,21 @@ func (c *Client) SleepUntilRequestRate() {
 
 	// if there are less then 5 registered requests: execute the request
 	// immediately
-	if len(c.requestTimestamps) < 4 {
+	if len(*c.requestTimestamps) < 4 {
 		return
 	}
 
 	// is the first item within 1 second? If it's > 1 second the request can be
 	// executed imediately
-	diff := time.Now().Sub(c.requestTimestamps[0])
+	c.RegisterRequestTimestamp(time.Now())
+	diff := time.Now().Sub((*c.requestTimestamps)[0])
 	if diff >= time.Second {
 		return
 	}
 
 	// Sleep for the time it takes for the first item to be > 1 second old
-	time.Sleep((time.Second*2) - diff)
+	// + 1ms to be sure :)
+	time.Sleep(time.Second - diff + (1 * time.Millisecond))
 }
 
 // CheckResponse checks the Client response for errors, and returns them if
@@ -427,3 +439,5 @@ type FilterParams map[string]string
 // 	Operator string
 // 	Value    string
 // }
+
+type timestamps []time.Time
