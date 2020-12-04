@@ -1,6 +1,8 @@
 package clock
 
-import null "gopkg.in/guregu/null.v3"
+import (
+	null "gopkg.in/guregu/null.v3"
+)
 
 type Folio struct {
 	// ID of a folio
@@ -277,4 +279,130 @@ type User struct {
 	Email              string `json:"email"`
 	AuthorizedAccounts []int  `json:"authorized_accounts"`
 	FiscalCode         string `json:"fiscal_code"`
+}
+
+type Company struct {
+	ID                           int         `json:"id"`
+	CreatedAt                    Time        `json:"created_at"`
+	UpdatedAt                    Time        `json:"updated_at"`
+	Notes                        interface{} `json:"notes"`
+	SubscriptionID               int         `json:"subscription_id"`
+	Tsv                          string      `json:"tsv"`
+	Links                        interface{} `json:"links"`
+	AcceptChargeTransfers        bool        `json:"accept_charge_transfers"`
+	CommissionRate               interface{} `json:"commission_rate"`
+	ContactInfoID                int         `json:"contact_info_id"`
+	PaymentTermsDays             interface{} `json:"payment_terms_days"`
+	CreditLimitCents             interface{} `json:"credit_limit_cents"`
+	Currency                     string      `json:"currency"`
+	ArchivedAt                   interface{} `json:"archived_at"`
+	Name                         string      `json:"name"`
+	VatNumber                    string      `json:"vat_number"`
+	SecondIdentification         string      `json:"second_identification"`
+	Country                      string      `json:"country"`
+	Address                      string      `json:"address"`
+	PersonName                   string      `json:"person_name"`
+	AdditionalBillingInfo        interface{} `json:"additional_billing_info"`
+	Branch                       interface{} `json:"branch"`
+	UpdateControlEventAttributes struct {
+	} `json:"update_control_event_attributes"`
+	City                     interface{} `json:"city"`
+	ZipCode                  interface{} `json:"zip_code"`
+	State                    interface{} `json:"state"`
+	ReportSegmentID          int         `json:"report_segment_id"`
+	IATA                     interface{} `json:"iata"`
+	ChannelManagerSearchCode interface{} `json:"channel_manager_search_code"`
+	WBEAccessCode            interface{} `json:"wbe_access_code"`
+	WBERole                  interface{} `json:"wbe_role"`
+	RatesValidityDate        interface{} `json:"rates_validity_date"`
+	WBEAccessCodeUniqueness  interface{} `json:"wbe_access_code_uniqueness"`
+	FamilyID                 int         `json:"family_id"`
+	ContactInfo              struct {
+		ID                  int         `json:"id"`
+		FirstName           string      `json:"first_name"`
+		MiddleName          string      `json:"middle_name"`
+		LastName            string      `json:"last_name"`
+		Country             string      `json:"country"`
+		City                string      `json:"city"`
+		Address             string      `json:"address"`
+		ZipCode             string      `json:"zip_code"`
+		PhoneNumber         string      `json:"phone_number"`
+		EMail               string      `json:"e_mail"`
+		FaxNumber           string      `json:"fax_number"`
+		CreatedAt           Time        `json:"created_at"`
+		UpdatedAt           Time        `json:"updated_at"`
+		TSV                 string      `json:"tsv"`
+		Language            interface{} `json:"language"`
+		ProfileUUID         interface{} `json:"profile_uuid"`
+		ProfileKey          string      `json:"profile_key"`
+		SubscriptionID      int         `json:"subscription_id"`
+		Current             interface{} `json:"current"`
+		State               string      `json:"state"`
+		PersonTitleID       interface{} `json:"person_title_id"`
+		MigrationPmsGuestID interface{} `json:"migration_pms_guest_id"`
+	} `json:"contact_info"`
+	BillingInfo struct {
+		Name                  string      `json:"name"`
+		Vat                   string      `json:"vat"`
+		SecondIdentification  string      `json:"second_identification"`
+		PersonName            string      `json:"person_name"`
+		Country               string      `json:"country"`
+		Address               string      `json:"address"`
+		City                  interface{} `json:"city"`
+		State                 interface{} `json:"state"`
+		ZipCode               interface{} `json:"zip_code"`
+		AdditionalBillingInfo interface{} `json:"additional_billing_info"`
+		CustomFields          struct {
+			CompanyType   interface{} `json:"company_type"`
+			MasterAccount interface{} `json:"master_account"`
+			ReportGroup   interface{} `json:"report_group"`
+		} `json:"custom_fields"`
+	} `json:"billing_info"`
+	ReportSegment struct {
+		ID                int         `json:"id"`
+		MarketingSource   interface{} `json:"marketing_source"`
+		MarketingChannel  interface{} `json:"marketing_channel"`
+		MarketingSegment  interface{} `json:"marketing_segment"`
+		ReservationStatus interface{} `json:"reservation_status"`
+	} `json:"report_segment"`
+	CustomFields struct {
+		CompanyType   interface{} `json:"company_type"`
+		MasterAccount interface{} `json:"master_account"`
+		ReportGroup   interface{} `json:"report_group"`
+	} `json:"custom_fields"`
+}
+
+type Event struct {
+	ID                 int         `json:"id"`
+	Name               string      `json:"name"`
+	Note               string      `json:"note"`
+	CompanyID          int         `json:"company_id"`
+	CreatedAt          Time        `json:"created_at"`
+	UpdatedAt          Time        `json:"updated_at"`
+	Arrival            string      `json:"arrival"`
+	Departure          string      `json:"departure"`
+	AccountID          int         `json:"account_id"`
+	Tsv                string      `json:"tsv"`
+	Links              string      `json:"links"`
+	BlockCutOffDays    interface{} `json:"block_cut_off_days"`
+	BlockExpireDate    interface{} `json:"block_expire_date"`
+	Number             string      `json:"number"`
+	Color              string      `json:"color"`
+	CanceledAt         interface{} `json:"canceled_at"`
+	UserCreatedID      int         `json:"user_created_id"`
+	UserUpdatedID      int         `json:"user_updated_id"`
+	ReportSegmentID    int         `json:"report_segment_id"`
+	Status             string      `json:"status"`
+	CheckinStatus      string      `json:"checkin_status"`
+	GuaranteeStatus    string      `json:"guarantee_status"`
+	AssignedToUserID   int         `json:"assigned_to_user_id"`
+	Tags               string      `json:"tags"`
+	CustomerCostCenter string      `json:"customer_cost_center"`
+	ReportSegment      struct {
+		ID                int    `json:"id"`
+		MarketingSource   string `json:"marketing_source"`
+		MarketingChannel  string `json:"marketing_channel"`
+		MarketingSegment  string `json:"marketing_segment"`
+		ReservationStatus string `json:"reservation_status"`
+	} `json:"report_segment"`
 }
