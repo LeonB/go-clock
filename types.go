@@ -215,6 +215,8 @@ type FolioCharge struct {
 
 type CustomFields map[string]interface{}
 
+type CustomAttributes interface{}
+
 type FolioCredits []FolioCredit
 
 type FolioCredit struct {
@@ -268,6 +270,10 @@ type FolioCredit struct {
 	VoidReason                    string   `json:"void_reason"`
 	AccountID                     int      `json:"account_id"`
 	Number                        string   `json:"number"`
+
+	CustomAttributes CustomAttributes `json:"custom_attributes"`
+	GlCode           string           `json:"gl_code"`
+	CustomFields     CustomFields     `json:"custom_fields"`
 }
 
 type Users []User
