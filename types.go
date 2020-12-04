@@ -272,7 +272,7 @@ type FolioCredit struct {
 	Number                        string   `json:"number"`
 
 	CustomAttributes CustomAttributes `json:"custom_attributes"`
-	GlCode           string           `json:"gl_code"`
+	GLCode           string           `json:"gl_code"`
 	CustomFields     CustomFields     `json:"custom_fields"`
 }
 
