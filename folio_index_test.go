@@ -28,19 +28,6 @@ func TestFolioIndex(t *testing.T) {
 	client.SetAccountID(accountID)
 	client.SetDisallowUnknownFields(true)
 
-	func() {
-		req := client.NewFolioCreditsRequest()
-		req.PathParams().ID = 7377160
-		resp, err := req.Do()
-		if err != nil {
-			t.Error(err)
-		}
-
-		b, _ := json.MarshalIndent(resp, "", "  ")
-		log.Println(string(b))
-		os.Exit(33)
-	}()
-
 	req := client.NewFolioIndexRequest()
 	req.QueryParams().Filters["closed_at.gteq"] = "2018-12-06"
 	req.QueryParams().Filters["closed_at.lt"] = "2018-12-10"
@@ -50,14 +37,19 @@ func TestFolioIndex(t *testing.T) {
 		t.Error(err)
 	}
 
-	// for _, id := range resp {
-	// 	req := client.NewFolioShowRequest()
-	// 	req.PathParams().ID = id
-	// 	_, err := req.Do()
-	// 	if err != nil {
-	// 		t.Error(err)
-	// 	}
-	// }
+	for _, id := range resp {
+		req := client.NewFolioShowRequest()
+		req.PathParams().ID = id
+		resp, err := req.Do()
+		if err != nil {
+			t.Error(err)
+		}
+
+		b, _ := json.MarshalIndent(resp, "", "  ")
+		log.Println(string(b))
+	}
+
+	os.Exit(21)
 
 	for _, id := range resp {
 		req := client.NewFolioChargesRequest()

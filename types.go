@@ -1,6 +1,8 @@
 package clock
 
 import (
+	"time"
+
 	null "gopkg.in/guregu/null.v3"
 )
 
@@ -411,4 +413,127 @@ type Event struct {
 		MarketingSegment  string `json:"marketing_segment"`
 		ReservationStatus string `json:"reservation_status"`
 	} `json:"report_segment"`
+}
+
+type Booking struct {
+	ID                        int           `json:"id"`
+	Arrival                   string        `json:"arrival"`
+	Departure                 string        `json:"departure"`
+	CreatedAt                 time.Time     `json:"created_at"`
+	UpdatedAt                 time.Time     `json:"updated_at"`
+	Status                    string        `json:"status"`
+	BlockID                   int           `json:"block_id"`
+	Adults                    int           `json:"adults"`
+	Children                  int           `json:"children"`
+	AccountID                 int           `json:"account_id"`
+	ArrivalTime               string        `json:"arrival_time"`
+	TransferArrival           string        `json:"transfer_arrival"`
+	TransferDeparture         string        `json:"transfer_departure"`
+	SourceOfBusinessCompanyID int           `json:"source_of_business_company_id"`
+	DepartureTime             string        `json:"departure_time"`
+	ReferenceNumber           string        `json:"reference_number"`
+	ReferenceDate             Date          `json:"reference_date"`
+	IsGuaranteed              bool          `json:"is_guaranteed"`
+	FirstMealID               int           `json:"first_meal_id"`
+	RateID                    int           `json:"rate_id"`
+	EatingObjectID            int           `json:"eating_object_id"`
+	EventID                   int           `json:"event_id"`
+	StatusChangedAt           Time          `json:"status_changed_at"`
+	UserCreatedID             int           `json:"user_created_id"`
+	UserUpdatedID             int           `json:"user_updated_id"`
+	ArrivalRoomTypeID         int           `json:"arrival_room_type_id"`
+	ArrivalRoomID             int           `json:"arrival_room_id"`
+	RegistrationCardsCount    int           `json:"registration_cards_count"`
+	ConfirmationLogsCount     int           `json:"confirmation_logs_count"`
+	ChildrenAges              []int         `json:"children_ages"`
+	SelfServiceKey            string        `json:"self_service_key"`
+	SelfServicePin            string        `json:"self_service_pin"`
+	Tsv                       string        `json:"tsv"`
+	Links                     string        `json:"links"`
+	MarketingSource           string        `json:"marketing_source"`
+	MarketingChannel          string        `json:"marketing_channel"`
+	GuaranteePolicyID         int           `json:"guarantee_policy_id"`
+	AcceptChargeTransfers     bool          `json:"accept_charge_transfers"`
+	CommissionValueCents      float64       `json:"commission_value_cents"`
+	CommissionCurrency        string        `json:"commission_currency"`
+	CommissionPaymentDate     Date          `json:"commission_payment_date"`
+	CommissionChecked         bool          `json:"commission_checked"`
+	CommissionNotes           string        `json:"commission_notes"`
+	BeforeArrivalMailSent     bool          `json:"before_arrival_mail_sent"`
+	AfterDepartureMailSent    bool          `json:"after_departure_mail_sent"`
+	CityTaxMode               string        `json:"city_tax_mode"`
+	Number                    string        `json:"number"`
+	CitytaxAdults             interface{}   `json:"citytax_adults"`
+	CitytaxChildren           interface{}   `json:"citytax_children"`
+	DisableRoomChange         bool          `json:"disable_room_change"`
+	ConfirmationBodyHTML      interface{}   `json:"confirmation_body_html"`
+	DisabledBookingMailerIds  []interface{} `json:"disabled_booking_mailer_ids"`
+	RateChargesToCompanyEvent bool          `json:"rate_charges_to_company_event"`
+	RequiredFieldsDone        bool          `json:"required_fields_done"`
+	CommonDoorCodes           []interface{} `json:"common_door_codes"`
+	SelfPreCheckedIn          interface{}   `json:"self_pre_checked_in"`
+	CalendarColor             string        `json:"calendar_color"`
+	MigrationPmsGuestID       interface{}   `json:"migration_pms_guest_id"`
+	RequireRoomResource       bool          `json:"require_room_resource"`
+	EarlyArrival              bool          `json:"early_arrival"`
+	LateDeparture             bool          `json:"late_departure"`
+	MarketingSegment          string        `json:"marketing_segment"`
+	ContactPersonID           int           `json:"contact_person_id"`
+	AgentID                   int           `json:"agent_id"`
+	ReportSegmentID           int           `json:"report_segment_id"`
+	RateChargesTransfer       string        `json:"rate_charges_transfer"`
+	CustomerCostCenter        string        `json:"customer_cost_center"`
+	NotesDestroyedAt          Time          `json:"notes_destroyed_at"`
+	CommissionRecipient       string        `json:"commission_recipient"`
+	ManualPricesAsText        string        `json:"manual_prices_as_text"`
+	ManualCurrency            string        `json:"manual_currency"`
+	Balance                   struct {
+		Cents    int    `json:"cents"`
+		Currency string `json:"currency"`
+	} `json:"balance"`
+	TotalBookingValue struct {
+		Cents    int    `json:"cents"`
+		Currency string `json:"currency"`
+	} `json:"total_booking_value"`
+	Ota             bool `json:"ota"`
+	RateCalculation []struct {
+		Date     string `json:"date"`
+		Cents    int    `json:"cents"`
+		Currency string `json:"currency"`
+	} `json:"rate_calculation"`
+	IdentityTags     []interface{} `json:"identity_tags"`
+	MainBookingGuest struct {
+		GuestID int `json:"guest_id"`
+	} `json:"main_booking_guest"`
+	BookingGuests []struct {
+		GuestID int `json:"guest_id"`
+	} `json:"booking_guests"`
+	BookingRoomChanges      []interface{} `json:"booking_room_changes"`
+	ActiveNotes             []interface{} `json:"active_notes"`
+	ActiveHousekeepingNotes []interface{} `json:"active_housekeeping_notes"`
+	ActiveMealsNotes        []interface{} `json:"active_meals_notes"`
+	ActiveClientRequests    []interface{} `json:"active_client_requests"`
+	Meals                   []struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"meals"`
+	CustomFields struct {
+	} `json:"custom_fields"`
+	GuestState           string `json:"guest_state"`
+	GuestLanguage        string `json:"guest_language"`
+	GuestCountry         string `json:"guest_country"`
+	GuestAddress         string `json:"guest_address"`
+	GuestLastName        string `json:"guest_last_name"`
+	GuestFirstName       string `json:"guest_first_name"`
+	GuestCity            string `json:"guest_city"`
+	GuestZipCode         string `json:"guest_zip_code"`
+	GuestPhoneNumber     string `json:"guest_phone_number"`
+	GuestMiddleName      string `json:"guest_middle_name"`
+	GuestEMail           string `json:"guest_e_mail"`
+	GuestFaxNumber       string `json:"guest_fax_number"`
+	GuestPersonTitleID   int    `json:"guest_person_title_id"`
+	GuestPersonTitleName string `json:"guest_person_title_name"`
+}
+type Guest struct {
+	ID int `json:"id"`
 }
