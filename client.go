@@ -42,8 +42,7 @@ func NewClient(httpClient *http.Client, userName string, APIKey string) *Client 
 	}
 
 	client := &Client{
-		http:              httpClient,
-		requestTimestamps: &timestamps{},
+		http: httpClient,
 	}
 
 	client.SetUserName(userName)
@@ -80,8 +79,6 @@ type Client struct {
 
 	// Optional function called after every successful request made to the DO Clients
 	onRequestCompleted RequestCompletionCallback
-
-	requestTimestamps *timestamps
 }
 
 // RequestCompletionCallback defines the type of the request callback function
@@ -133,7 +130,6 @@ func (c *Client) SetAccountID(accountID int) {
 	if requestTimestamps[accountID] == nil {
 		requestTimestamps[accountID] = &timestamps{}
 	}
-	c.requestTimestamps = requestTimestamps[accountID]
 }
 
 func (c *Client) BaseURL() url.URL {
@@ -292,12 +288,12 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 }
 
 func (c *Client) RegisterRequestTimestamp(t time.Time) {
-	if len(*c.requestTimestamps) >= 5 {
-		ts := (*c.requestTimestamps)[1:5]
-		c.requestTimestamps = &ts
+	if len(*requestTimestamps[c.AccountID()]) >= 5 {
+		ts := (*requestTimestamps[c.AccountID()])[1:5]
+		requestTimestamps[c.AccountID()] = &ts
 	}
-	ts := append(*c.requestTimestamps, t)
-	c.requestTimestamps = &ts
+	ts := append(*requestTimestamps[c.AccountID()], t)
+	requestTimestamps[c.AccountID()] = &ts
 }
 
 func (c *Client) SleepUntilRequestRate() {
@@ -305,14 +301,14 @@ func (c *Client) SleepUntilRequestRate() {
 
 	// if there are less then 5 registered requests: execute the request
 	// immediately
-	if len(*c.requestTimestamps) < 4 {
+	if len(*requestTimestamps[c.AccountID()]) < 4 {
 		return
 	}
 
 	// is the first item within 1 second? If it's > 1 second the request can be
 	// executed imediately
 	c.RegisterRequestTimestamp(time.Now())
-	diff := time.Now().Sub((*c.requestTimestamps)[0])
+	diff := time.Now().Sub((*requestTimestamps[c.AccountID()])[0])
 	if diff >= time.Second {
 		return
 	}
