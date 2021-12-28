@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -17,6 +16,7 @@ import (
 	"time"
 
 	digest "github.com/omniboost/go-clock/digest"
+	"github.com/pkg/errors"
 )
 
 const (
@@ -194,14 +194,14 @@ func (c *Client) NewRequest(ctx context.Context, method string, URL url.URL, bod
 	if body != nil {
 		err := json.NewEncoder(buf).Encode(body)
 		if err != nil {
-			return nil, err
+			return nil, errors.WithStack(err)
 		}
 	}
 
 	// create new http request
 	req, err := http.NewRequest(method, URL.String(), buf)
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 
 	// optionally pass along context
@@ -222,7 +222,10 @@ func (c *Client) NewRequest(ctx context.Context, method string, URL url.URL, bod
 // the raw response will be written to v, without attempting to decode it.
 func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response, error) {
 	if c.debug == true {
-		dump, _ := httputil.DumpRequestOut(req, true)
+		dump, err := httputil.DumpRequestOut(req, true)
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
 		log.Println(string(dump))
 	}
 
@@ -230,7 +233,7 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 
 	httpResp, err := c.http.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 
 	// register timestamp after request has a response
@@ -248,14 +251,17 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 	}()
 
 	if c.debug == true {
-		dump, _ := httputil.DumpResponse(httpResp, true)
+		dump, err := httputil.DumpResponse(httpResp, true)
+		if err != nil {
+			return httpResp, errors.WithStack(err)
+		}
 		log.Println(string(dump))
 	}
 
 	// check if the response isn't an error
 	err = CheckResponse(httpResp)
 	if err != nil {
-		return httpResp, err
+		return httpResp, errors.WithStack(err)
 	}
 
 	// check the provided interface parameter
@@ -266,7 +272,7 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 	// interface implements io.Writer: write Body to it
 	// if w, ok := response.Envelope.(io.Writer); ok {
 	// 	_, err := io.Copy(w, httpResp.Body)
-	// 	return httpResp, err
+	// 	return httpResp, errors.WithStack(err)
 	// }
 
 	// try to decode body into interface parameter
@@ -280,7 +286,7 @@ func (c *Client) Do(req *http.Request, responseBody interface{}) (*http.Response
 			// create a simple error response
 			errorResponse := &ErrorResponse{Response: httpResp}
 			errorResponse.Errors = append(errorResponse.Errors, err)
-			return httpResp, errorResponse
+			return httpResp, errors.WithStack(errorResponse)
 		}
 	}
 
@@ -339,28 +345,28 @@ func CheckResponse(r *http.Response) error {
 	err := checkContentType(r)
 	if err != nil {
 		errorResponse.Errors = append(errorResponse.Errors, errors.New(r.Status))
-		return errorResponse
+		return errors.WithStack(errorResponse)
 	}
 
 	// read data and copy it back
 	data, err := ioutil.ReadAll(r.Body)
 	r.Body = ioutil.NopCloser(bytes.NewReader(data))
 	if err != nil {
-		return errorResponse
+		return errors.WithStack(errorResponse)
 	}
 
 	if len(data) == 0 {
-		return errorResponse
+		return errors.WithStack(errorResponse)
 	}
 
 	// convert json to struct
 	err = json.Unmarshal(data, errorResponse)
 	if err != nil {
 		errorResponse.Errors = append(errorResponse.Errors, err)
-		return errorResponse
+		return errors.WithStack(errorResponse)
 	}
 
-	return errorResponse
+	return errors.WithStack(errorResponse)
 }
 
 type ErrorResponse struct {
@@ -379,7 +385,7 @@ func (r *ErrorResponse) UnmarshalJSON(data []byte) error {
 
 	err := json.Unmarshal(data, &tmp)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	if tmp.Error != "" {
@@ -416,7 +422,7 @@ func checkContentType(response *http.Response) error {
 	header := response.Header.Get("Content-Type")
 	contentType := strings.Split(header, ";")[0]
 	if contentType != mediaType {
-		return fmt.Errorf("Expected Content-Type \"%s\", got \"%s\"", mediaType, contentType)
+		return errors.Errorf("Expected Content-Type \"%s\", got \"%s\"", mediaType, contentType)
 	}
 
 	return nil
