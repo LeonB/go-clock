@@ -537,3 +537,270 @@ type Booking struct {
 type Guest struct {
 	ID int `json:"id"`
 }
+
+type FolioLedgers struct {
+	Items []struct {
+		FolioID  int `json:"folio_id"`
+		Previous struct {
+			Charges struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"charges"`
+			ChargesFromDepositFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"charges_from_deposit_folios"`
+			Payments struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"payments"`
+			Debts struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"debts"`
+			DebtsOpenFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"debts_open_folios"`
+			DebtsClosedFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"debts_closed_folios"`
+			Deposits struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits"`
+			DepositsInConsumption struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_consumption"`
+			DepositsInAdvance struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_advance"`
+			DepositsInAdvanceFromDepositFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_advance_from_deposit_folios"`
+			DepositsInAdvanceFromNonDepositFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_advance_from_non_deposit_folios"`
+		} `json:"previous"`
+		Date struct {
+			Charges struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"charges"`
+			ChargesFromDepositFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"charges_from_deposit_folios"`
+			Payments struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"payments"`
+			Debts struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"debts"`
+			DebtsOpenFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"debts_open_folios"`
+			DebtsClosedFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"debts_closed_folios"`
+			Deposits struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits"`
+			DepositsInConsumption struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_consumption"`
+			DepositsInAdvance struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_advance"`
+			DepositsInAdvanceFromDepositFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_advance_from_deposit_folios"`
+			DepositsInAdvanceFromNonDepositFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_advance_from_non_deposit_folios"`
+		} `json:"date"`
+		EndOfDate struct {
+			Charges struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"charges"`
+			ChargesFromDepositFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"charges_from_deposit_folios"`
+			Payments struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"payments"`
+			Debts struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"debts"`
+			DebtsOpenFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"debts_open_folios"`
+			DebtsClosedFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"debts_closed_folios"`
+			Deposits struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits"`
+			DepositsInConsumption struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_consumption"`
+			DepositsInAdvance struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_advance"`
+			DepositsInAdvanceFromDepositFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_advance_from_deposit_folios"`
+			DepositsInAdvanceFromNonDepositFolios struct {
+				Cents    int    `json:"cents"`
+				Currency string `json:"currency"`
+			} `json:"deposits_in_advance_from_non_deposit_folios"`
+		} `json:"end_of_date"`
+	} `json:"items"`
+	PreviousTotals struct {
+		Charges []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"charges"`
+		ChargesFromDepositFolios []interface{} `json:"charges_from_deposit_folios"`
+		Payments                 []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"payments"`
+		Debts []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"debts"`
+		DebtsOpenFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"debts_open_folios"`
+		DebtsClosedFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"debts_closed_folios"`
+		Deposits []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits"`
+		DepositsInConsumption []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_consumption"`
+		DepositsInAdvance []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_advance"`
+		DepositsInAdvanceFromDepositFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_advance_from_deposit_folios"`
+		DepositsInAdvanceFromNonDepositFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_advance_from_non_deposit_folios"`
+	} `json:"previous_totals"`
+	DateTotals struct {
+		Charges []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"charges"`
+		ChargesFromDepositFolios []interface{} `json:"charges_from_deposit_folios"`
+		Payments                 []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"payments"`
+		Debts []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"debts"`
+		DebtsOpenFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"debts_open_folios"`
+		DebtsClosedFolios []interface{} `json:"debts_closed_folios"`
+		Deposits          []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits"`
+		DepositsInConsumption []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_consumption"`
+		DepositsInAdvance []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_advance"`
+		DepositsInAdvanceFromDepositFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_advance_from_deposit_folios"`
+		DepositsInAdvanceFromNonDepositFolios []interface{} `json:"deposits_in_advance_from_non_deposit_folios"`
+	} `json:"date_totals"`
+	EndOfDateTotals struct {
+		Charges []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"charges"`
+		ChargesFromDepositFolios []interface{} `json:"charges_from_deposit_folios"`
+		Payments                 []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"payments"`
+		Debts []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"debts"`
+		DebtsOpenFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"debts_open_folios"`
+		DebtsClosedFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"debts_closed_folios"`
+		Deposits []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits"`
+		DepositsInConsumption []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_consumption"`
+		DepositsInAdvance []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_advance"`
+		DepositsInAdvanceFromDepositFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_advance_from_deposit_folios"`
+		DepositsInAdvanceFromNonDepositFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"deposits_in_advance_from_non_deposit_folios"`
+	} `json:"end_of_date_totals"`
+}
