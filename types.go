@@ -741,8 +741,11 @@ type FolioLedgers struct {
 			Cents    int    `json:"cents"`
 			Currency string `json:"currency"`
 		} `json:"debts_open_folios"`
-		DebtsClosedFolios []interface{} `json:"debts_closed_folios"`
-		Deposits          []struct {
+		DebtsClosedFolios []struct {
+			Cents    int    `json:"cents"`
+			Currency string `json:"currency"`
+		} `json:"debts_closed_folios"`
+		Deposits []struct {
 			Cents    int    `json:"cents"`
 			Currency string `json:"currency"`
 		} `json:"deposits"`
