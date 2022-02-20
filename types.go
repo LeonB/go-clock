@@ -104,6 +104,7 @@ type Folio struct {
 	FiscalRequestCode  string   `json:"fiscal_request_code"`
 	FiscalResponseCode string   `json:"fiscal_response_code"`
 	QRCodeText         string   `json:"qr_code_text"`
+	VoidReason         string   `json:"void_reason"`
 }
 
 type BillingInfo struct {
