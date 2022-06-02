@@ -277,6 +277,11 @@ type FolioCredit struct {
 	CustomAttributes CustomAttributes `json:"custom_attributes"`
 	GLCode           string           `json:"gl_code"`
 	CustomFields     CustomFields     `json:"custom_fields"`
+
+	PaymentDate     Date   `json:"payment_date"`
+	LocalCurrency   string `json:"local_currency"`
+	LocalValueCents int    `json:"local_value_cents"`
+	Reference       string `json:"reference"`
 }
 
 type Users []User
