@@ -356,21 +356,17 @@ type Company struct {
 		MigrationPmsGuestID interface{} `json:"migration_pms_guest_id"`
 	} `json:"contact_info"`
 	BillingInfo struct {
-		Name                  string      `json:"name"`
-		Vat                   string      `json:"vat"`
-		SecondIdentification  string      `json:"second_identification"`
-		PersonName            string      `json:"person_name"`
-		Country               string      `json:"country"`
-		Address               string      `json:"address"`
-		City                  interface{} `json:"city"`
-		State                 interface{} `json:"state"`
-		ZipCode               interface{} `json:"zip_code"`
-		AdditionalBillingInfo interface{} `json:"additional_billing_info"`
-		CustomFields          struct {
-			CompanyType   interface{} `json:"company_type"`
-			MasterAccount interface{} `json:"master_account"`
-			ReportGroup   interface{} `json:"report_group"`
-		} `json:"custom_fields"`
+		Name                  string       `json:"name"`
+		Vat                   string       `json:"vat"`
+		SecondIdentification  string       `json:"second_identification"`
+		PersonName            string       `json:"person_name"`
+		Country               string       `json:"country"`
+		Address               string       `json:"address"`
+		City                  interface{}  `json:"city"`
+		State                 interface{}  `json:"state"`
+		ZipCode               interface{}  `json:"zip_code"`
+		AdditionalBillingInfo interface{}  `json:"additional_billing_info"`
+		CustomFields          CustomFields `json:"custom_fields"`
 	} `json:"billing_info"`
 	ReportSegment struct {
 		ID                int         `json:"id"`
@@ -379,11 +375,7 @@ type Company struct {
 		MarketingSegment  interface{} `json:"marketing_segment"`
 		ReservationStatus interface{} `json:"reservation_status"`
 	} `json:"report_segment"`
-	CustomFields struct {
-		CompanyType   interface{} `json:"company_type"`
-		MasterAccount interface{} `json:"master_account"`
-		ReportGroup   interface{} `json:"report_group"`
-	} `json:"custom_fields"`
+	CustomFields CustomFields `json:"custom_fields"`
 }
 
 type Event struct {
@@ -812,4 +804,66 @@ type FolioLedgers struct {
 			Currency string `json:"currency"`
 		} `json:"deposits_in_advance_from_non_deposit_folios"`
 	} `json:"end_of_date_totals"`
+}
+
+type ChargeTemplates []ChargeTemplate
+
+type ChargeTemplate struct {
+	ID                     int         `json:"id"`
+	Text                   string      `json:"text"`
+	RevenueGroup           string      `json:"revenue_group"`
+	VisualGroupText        string      `json:"visual_group_text"`
+	PlainPriceCents        int         `json:"plain_price_cents"`
+	Currency               string      `json:"currency"`
+	TaxRate                float64     `json:"tax_rate"`
+	AccountID              int         `json:"account_id"`
+	CreatedAt              time.Time   `json:"created_at"`
+	UpdatedAt              time.Time   `json:"updated_at"`
+	StoreID                int         `json:"store_id"`
+	InventoryCode          interface{} `json:"inventory_code"`
+	Tsv                    interface{} `json:"tsv"`
+	RevenueCategory        string      `json:"revenue_category"`
+	TaxCode                interface{} `json:"tax_code"`
+	Qty                    float64     `json:"qty"`
+	PrintText              string      `json:"print_text"`
+	DefaultOrderGroup      interface{} `json:"default_order_group"`
+	SortOrder              int         `json:"sort_order"`
+	Color                  string      `json:"color"`
+	CapacityPoolID         int         `json:"capacity_pool_id"`
+	ArchivedAt             interface{} `json:"archived_at"`
+	HideInPostingScreen    bool        `json:"hide_in_posting_screen"`
+	HousekeepingTemplateID int         `json:"housekeeping_template_id"`
+	FloatingPrice          bool        `json:"floating_price"`
+	CustomFields           struct {
+		AccountingCode               string      `json:"accounting_code"`
+		Booking                      interface{} `json:"booking"`
+		BrpIncludedGroup             interface{} `json:"brp_included_group"`
+		BrpIncludedPrice             interface{} `json:"brp_included_price"`
+		BrpUpgradableGroup           interface{} `json:"brp_upgradable_group"`
+		ChargeOnlyIncludedFirstNight interface{} `json:"charge_only_included_first_night"`
+		IncludedDays                 string      `json:"included_days"`
+		MealCode                     string      `json:"meal_code"`
+		MealCodeForUpgrade           interface{} `json:"meal_code_for_upgrade"`
+		MealGroup                    interface{} `json:"meal_group"`
+		MealSeatingGroup             string      `json:"meal_seating_group"`
+		MealUpgradePrice             interface{} `json:"meal_upgrade_price"`
+		ProfitCentre                 string      `json:"profit_centre"`
+	} `json:"custom_fields"`
+}
+
+type DocumentTypes []DocumentType
+
+type DocumentType struct {
+	ID                          int           `json:"id"`
+	TextPositiveDoc             string        `json:"text_positive_doc"`
+	TextNegativeDoc             string        `json:"text_negative_doc"`
+	TextPositiveCorrDoc         string        `json:"text_positive_corr_doc"`
+	TextNegativeCorrDoc         string        `json:"text_negative_corr_doc"`
+	PositiveDocumentGeneratorID int           `json:"positive_document_generator_id"`
+	NegativeDocumentGeneratorID int           `json:"negative_document_generator_id"`
+	CreatedAt                   time.Time     `json:"created_at"`
+	UpdatedAt                   time.Time     `json:"updated_at"`
+	FolioPrintTemplateID        interface{}   `json:"folio_print_template_id"`
+	RequireFolioFiscalization   bool          `json:"require_folio_fiscalization"`
+	PrintFooter                 []interface{} `json:"print_footer"`
 }
