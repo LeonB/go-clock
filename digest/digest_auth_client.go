@@ -85,7 +85,7 @@ func (dr *DigestRequest) Execute() (resp *http.Response, err error) {
 	req.Header = dr.Header
 
 	client := &http.Client{
-		Timeout: 30 * time.Second,
+		Timeout: 5 * time.Minute,
 	}
 
 	if !dr.CertVal {
@@ -156,7 +156,7 @@ func (dr *DigestRequest) executeRequest(authString string) (resp *http.Response,
 	req.Header.Add("Authorization", authString)
 
 	client := &http.Client{
-		Timeout: 1 * time.Minute,
+		Timeout: 5 * time.Minute,
 	}
 
 	if !dr.CertVal {
