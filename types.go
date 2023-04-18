@@ -105,6 +105,7 @@ type Folio struct {
 	FiscalResponseCode string   `json:"fiscal_response_code"`
 	QRCodeText         string   `json:"qr_code_text"`
 	VoidReason         string   `json:"void_reason"`
+	PaymentTermsDate   Date     `json:"payment_terms_date"`
 }
 
 type BillingInfo struct {
