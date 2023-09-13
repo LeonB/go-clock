@@ -114,7 +114,10 @@ type BillingInfo struct {
 	VAT                   string       `json:"vat"`
 	SecondIdentification  string       `json:"second_identification"`
 	Country               string       `json:"country"`
-	Address               string       `json"address`
+	Address               string       `json:"address"`
+	City                  string       `json:"city"`
+	State                 string       `json:"state"`
+	ZipCode               string       `json:"zip_code"`
 	PersonName            string       `json:"person_name"`
 	AdditionalBillingInfo string       `json:"additional_billing_info"`
 	CreatedAt             Time         `json:"created_at"`
