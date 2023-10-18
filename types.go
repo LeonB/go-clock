@@ -285,6 +285,9 @@ type FolioCredit struct {
 	PaymentDate     Date   `json:"payment_date"`
 	LocalCurrency   string `json:"local_currency"`
 	LocalValueCents int    `json:"local_value_cents"`
+	FixedCurrencyRate float32 `json:"fixed_currency_rate"`
+	LocalCurrencyRate float32 `json:"local_currency_rate"`
+	CreditAmountTransferID float32 `json:"credit_amount_transfer_id"`
 	Reference       string `json:"reference"`
 }
 
